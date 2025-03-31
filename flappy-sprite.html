@@ -1,84 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flappy Bird Clone</title>
-    <style>
-        body { text-align: center; }
-        canvas { background: skyblue; display: block; margin: auto; }
-    </style>
-</head>
-<body>
-    <h1>Flappy Bird Clone</h1>
-    <canvas id="gameCanvas" width="400" height="500"></canvas>
-    <script>
-        const canvas = document.getElementById("gameCanvas");
-        const ctx = canvas.getContext("2d");
-
-        let bird = { x: 50, y: 150, radius: 15, velocity: 0, gravity: 0.5 };
-        let pipes = [];
-        let score = 0;
-        let gameOver = false;
-
-        document.addEventListener("keydown", () => { if (!gameOver) bird.velocity = -8; });
-
-        function spawnPipe() {
-            let height = Math.floor(Math.random() * 200) + 100;
-            pipes.push({ x: 400, height });
-        }
-
-        function update() {
-            if (gameOver) return;
-
-            bird.velocity += bird.gravity;
-            bird.y += bird.velocity;
-
-            if (bird.y + bird.radius > canvas.height || bird.y - bird.radius < 0) gameOver = true;
-
-            for (let pipe of pipes) {
-                pipe.x -= 2;
-                if (pipe.x === 50) score++;
-                if (pipe.x + 40 < 0) pipes.shift();
-
-                if (
-                    bird.x + bird.radius > pipe.x && bird.x - bird.radius < pipe.x + 40 &&
-                    (bird.y - bird.radius < pipe.height || bird.y + bird.radius > pipe.height + 100)
-                ) gameOver = true;
-            }
-
-            if (pipes.length === 0 || pipes[pipes.length - 1].x < 250) spawnPipe();
-        }
-
-        function draw() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = "yellow";
-            ctx.beginPath();
-            ctx.arc(bird.x, bird.y, bird.radius, 0, Math.PI * 2);
-            ctx.fill();
-
-            ctx.fillStyle = "green";
-            for (let pipe of pipes) {
-                ctx.fillRect(pipe.x, 0, 40, pipe.height);
-                ctx.fillRect(pipe.x, pipe.height + 100, 40, canvas.height - pipe.height - 100);
-            }
-
-            ctx.fillStyle = "black";
-            ctx.font = "20px Arial";
-            ctx.fillText("Score: " + score, 10, 20);
-
-            if (gameOver) {
-                ctx.fillText("Game Over! Refresh to restart", 100, 250);
-            }
-        }
-
-        function gameLoop() {
-            update();
-            draw();
-            requestAnimationFrame(gameLoop);
-        }
-
-        gameLoop();
-    </script>
-</body>
+<html>
+  <head>
+    <title>Flappy Bird using JS | by learnWD</title>
+  </head>
+  <body>
+   <h3>flappyBird by LearnWD</h3>
+   
+   <canvas id="canvas" width="288" height="512"></canvas>
+   
+   <script src="flappyBird.js"></script>
+  </body>
 </html>
